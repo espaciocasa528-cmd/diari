@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIARI PROBA · Deporte y más</title>
+<style>
+:root{
+  --azul:#0a2a6b;
+  --azul-oscuro:#061a45;
+  --rojo:#e4252d;
+  --amarillo:#f6b81a;
+  --crema:#fdf9ee;
+  --papel:#ffffff;
+  --tinta:#1b1b1b;
+  --gris:#6b6b6b;
+  --linea:#d9d4c3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,"Times New Roman",serif;background:var(--crema);color:var(--tinta);line-height:1.55}
+button,input,select,textarea{font:inherit}
+.topbar{background:var(--azul);color:#fff;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:8px 24px;font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:.04em}
+.topbar .marca{font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.topbar .centro{text-transform:capitalize}
+.topbar .acciones{display:flex;gap:8px;align-items:center}
+.topbar select{background:var(--azul-oscuro);color:#fff;border:1px solid rgba(255,255,255,.35);padding:4px 8px;border-radius:3px;font-size:12px}
+.btn{cursor:pointer;border:1px solid var(--azul);background:var(--azul);color:#fff;padding:7px 14px;border-radius:3px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;transition:.15s}
+.btn:hover{background:var(--azul-oscuro)}
+.btn.rojo{background:var(--rojo);border-color:var(--rojo)}
+.btn.rojo:hover{background:#b81a21}
+.btn.claro{background:#fff;color:var(--azul)}
+.btn.claro:hover{background:var(--crema)}
+.btn.mini{padding:4px 9px;font-size:12px}
+.topbar .btn{background:var(--amarillo);border-color:var(--amarillo);color:var(--azul-oscuro)}
+.topbar .btn:hover{background:#ffd14d}
+.masthead{background:var(--crema);text-align:center;padding:22px 16px 10px;border-bottom:4px double var(--azul);max-width:1180px;margin:0 auto}
+.masthead .logo{width:100%;max-width:560px;margin:0 auto;display:block}
+.masthead .edicion{font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--gris);margin-top:4px}
+.masthead .edicion b{color:var(--rojo)}
+nav{position:sticky;top:0;z-index:20;background:var(--azul);border-bottom:3px solid var(--rojo)}
+nav ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;max-width:1180px;margin:0 auto}
+nav li button{background:none;border:none;color:#fff;cursor:pointer;padding:13px 16px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:4px solid transparent;margin-bottom:-3px}
+nav li button:hover{background:rgba(255,255,255,.1)}
+nav li button.activo{border-bottom-color:var(--amarillo);background:rgba(255,255,255,.08)}
+main{max-width:1180px;margin:0 auto;padding:26px 20px 50px}
+.kicker{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.autor{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:var(--gris);margin-top:8px;border-top:1px solid var(--linea);padding-top:6px}
+.autor b{color:var(--azul)}
+.portada{display:grid;grid-template-columns:2fr 1fr;gap:28px;padding-bottom:26px;border-bottom:1px solid var(--azul);margin-bottom:28px}
+.destacada{cursor:pointer}
+.destacada h2{font-size:38px;line-height:1.12;color:var(--azul);margin:8px 0 10px}
+.destacada p.resumen{font-size:18px;color:#333}
+.destacada:hover h2{color:var(--rojo)}
+.lateral{border-left:1px solid var(--linea);padding-left:24px;display:flex;flex-direction:column;gap:18px}
+.lateral h4{font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--azul);border-bottom:2px solid var(--amarillo);padding-bottom:6px}
+.lateral .item{cursor:pointer;border-bottom:1px solid var(--linea);padding-bottom:12px}
+.lateral .item h5{font-size:18px;line-height:1.25;color:var(--azul);margin-top:3px}
+.lateral .item:hover h5{color:var(--rojo)}
+.bloque{margin-bottom:38px}
+.bloque-cab{display:flex;align-items:center;justify-content:space-between;border-top:4px solid var(--azul);border-bottom:1px solid var(--azul);padding:7px 0;margin-bottom:18px}
+.bloque-cab h3{font-family:Arial,Helvetica,sans-serif;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--azul)}
+.bloque-cab h3 span{display:inline-block;width:10px;height:10px;background:var(--rojo);margin-right:9px}
+.bloque-cab button{background:none;border:none;color:var(--rojo);font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.08em;text-transform:uppercase}
+.rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.tarjeta{background:var(--papel);border:1px solid var(--linea);cursor:pointer;display:flex;flex-direction:column;transition:.18s}
+.tarjeta:hover{box-shadow:0 8px 22px rgba(10,42,107,.16);transform:translateY(-2px)}
+.tarjeta .cuerpo{padding:14px 16px 14px;display:flex;flex-direction:column;flex:1}
+.tarjeta h3{font-size:21px;line-height:1.2;color:var(--azul);margin:5px 0 8px}
+.tarjeta:hover h3{color:var(--rojo)}
+.tarjeta p{font-size:15px;color:#3a3a3a;flex:1}
+.cover{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:var(--crema)}
+.cover-vacia{width:100%;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,#fffdf6,#fffdf6 12px,#fbf6e6 12px,#fbf6e6 24px);border-bottom:1px solid var(--linea)}
+.cover-vacia svg{width:62%;opacity:.28}
+.destacada .cover,.destacada .cover-vacia{aspect-ratio:16/9;margin-bottom:6px;border:1px solid var(--linea)}
+.etiqueta-demo{display:inline-block;background:var(--amarillo);color:var(--azul-oscuro);font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 6px;margin-left:8px;text-transform:uppercase;vertical-align:middle}
+.titulo-pagina{font-size:34px;color:var(--azul);border-bottom:4px solid var(--rojo);display:inline-block;padding-bottom:4px;margin-bottom:22px;text-transform:uppercase;letter-spacing:.04em}
+footer{background:var(--azul-oscuro);color:#cfd6ea;text-align:center;padding:28px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.06em}
+footer b{color:#fff;letter-spacing:.25em}
+footer .tira{height:4px;background:linear-gradient(90deg,var(--azul) 33%,var(--rojo) 33% 66%,var(--amarillo) 66%);margin-bottom:20px}
+.modal{position:fixed;inset:0;background:rgba(6,26,69,.72);display:none;align-items:flex-start;justify-content:center;overflow:auto;z-index:50;padding:30px 14px}
+.modal.abierto{display:flex}
+.hoja{background:var(--papel);width:100%;max-width:760px;border-top:6px solid var(--rojo);padding:30px 34px 34px;position:relative}
+.hoja.ancha{max-width:980px}
+.cerrar{position:absolute;right:12px;top:10px;background:none;border:none;font-size:28px;cursor:pointer;color:var(--azul);line-height:1}
+.cerrar:hover{color:var(--rojo)}
+.hoja h1{font-size:34px;line-height:1.15;color:var(--azul);margin:8px 0 10px}
+.hoja .entradilla{font-size:19px;color:#333;font-style:italic;margin-bottom:16px}
+.hoja .cover,.hoja .cover-vacia{margin-bottom:18px;border:1px solid var(--linea)}
+.hoja p{margin-bottom:14px;font-size:17px;text-align:justify}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.admin h2{font-size:24px;color:var(--azul);margin-bottom:14px}
+.admin h3{font-family:Arial,Helvetica,sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);border-bottom:2px solid var(--amarillo);padding-bottom:5px;margin:18px 0 10px}
+.campo{display:flex;flex-direction:column;margin-bottom:10px}
+.campo label{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);margin-bottom:3px}
+.campo input,.campo select,.campo textarea{border:1px solid #b8b3a0;padding:8px 10px;background:#fffefa;border-radius:2px;font-size:15px}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:2px solid var(--amarillo);border-color:var(--azul)}
+.campo textarea{min-height:120px;resize:vertical}
+.fila{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.lista-admin{max-height:430px;overflow:auto;border:1px solid var(--linea)}
+.lista-admin .reg{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--linea);font-size:14px}
+.lista-admin .reg small{display:block;color:var(--gris);font-family:Arial,Helvetica,sans-serif;font-size:11px}
+.lista-admin .vacio{padding:16px;color:var(--gris);font-size:14px}
+.estado{font-family:Arial,Helvetica,sans-serif;font-size:12px;background:var(--crema);border:1px solid var(--linea);padding:8px 10px;margin-top:8px;white-space:pre-wrap;max-height:130px;overflow:auto}
+.vista-previa{max-width:100%;max-height:120px;margin-top:6px;border:1px solid var(--linea);display:none}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(30px);background:var(--azul);color:#fff;padding:11px 20px;border-left:5px solid var(--amarillo);font-family:Arial,Helvetica,sans-serif;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+#toast.ver{opacity:1;transform:translateX(-50%) translateY(0)}
+.pie-foto{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-style:italic;color:var(--gris);padding:4px 16px 0}
+.destacada .pie-foto{padding:0 0 8px}
+.hoja .pie-foto{padding:0;margin:-12px 0 18px}
+.login-box{max-width:380px;margin:10px auto 0}
+.login-error{color:var(--rojo);font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;margin-top:10px;min-height:18px}
+.tarjeta.archivada,.destacada.archivada{opacity:.55}
+.etiqueta-arch{display:inline-block;background:var(--gris);color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 6px;margin-left:8px;text-transform:uppercase;vertical-align:middle}
+.aviso-admin{font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#fff6d6;border:1px solid var(--amarillo);color:var(--azul-oscuro);padding:7px 12px;margin-bottom:18px}
+@media(max-width:860px){
+  .portada{grid-template-columns:1fr}
+  .lateral{border-left:none;padding-left:0}
+  .destacada h2{font-size:28px}
+  .admin-grid{grid-template-columns:1fr}
+  .hoja{padding:24px 18px}
+  .hoja h1{font-size:26px}
+  .topbar{justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="marca">DIARI PROBA</span>
+  <span class="centro" id="fechaHoy"></span>
+  <div class="acciones">
+    <select id="selEdicion" title="Edición de los lunes"></select>
+    <button class="btn" id="btnAdmin">Panel de redacción</button>
+  </div>
+</div>
+
+<header class="masthead">
+  <div id="logo"></div>
+  <div class="edicion">Edición semanal de los lunes · <b id="textoEdicion"></b></div>
+</header>
+
+<nav><ul id="nav"></ul></nav>
+
+<main id="main"></main>
+
+<footer>
+  <div class="tira"></div>
+  <p><b>DIARI PROBA</b></p>
+  <p style="margin-top:8px">Deporte y más · Fútbol · Música 80s y 90s · Películas · Animación · Series</p>
+  <p style="margin-top:8px">Publicación cada lunes</p>
+</footer>
+
+<div class="modal" id="modalLector">
+  <div class="hoja">
+    <button class="cerrar" data-cerrar="modalLector">&times;</button>
+    <div id="lectorContenido"></div>
+  </div>
+</div>
+
+<div class="modal" id="modalAdmin">
+  <div class="hoja ancha admin">
+    <button class="cerrar" data-cerrar="modalAdmin">&times;</button>
+    <h2>Panel de redacción · DIARI PROBA</h2>
+    <div id="loginBox" class="login-box">
+      <h3 style="margin-top:0">Iniciar sesión como administrador</h3>
+      <div class="campo"><label for="lUser">Usuario</label><input type="text" id="lUser" autocomplete="off"></div>
+      <div class="campo"><label for="lPass">Contraseña</label><input type="password" id="lPass" autocomplete="off"></div>
+      <div class="fila"><button class="btn rojo" id="btnLogin">Iniciar sesión</button></div>
+      <div class="login-error" id="loginError"></div>
+    </div>
+    <div id="panelEditor" style="display:none">
+    <div class="fila" style="justify-content:flex-end;margin:-6px 0 10px"><button class="btn claro mini" id="btnLogout">Cerrar sesión</button></div>
+    <div class="admin-grid">
+      <div>
+        <h3 style="margin-top:0">Nueva noticia / editar</h3>
+        <input type="hidden" id="fId">
+        <div class="campo"><label for="fSeccion">Sección</label><select id="fSeccion"></select></div>
+        <div class="campo"><label for="fTitulo">Titular</label><input type="text" id="fTitulo" maxlength="140"></div>
+        <div class="campo"><label for="fResumen">Entradilla</label><input type="text" id="fResumen" maxlength="240"></div>
+        <div class="campo"><label for="fTexto">Texto de la noticia</label><textarea id="fTexto"></textarea></div>
+        <div class="campo"><label for="fAutor">Periodista</label><input type="text" id="fAutor" maxlength="80"></div>
+        <div class="campo"><label for="fFecha">Fecha (se asigna a la edición del lunes correspondiente)</label><input type="date" id="fFecha"></div>
+        <div class="campo"><label for="fImagen">Imagen de portada</label><input type="file" id="fImagen" accept="image/*"><img class="vista-previa" id="vistaPrevia" alt=""></div>
+        <div class="campo"><label for="fFoto">Autor de la foto (fotógrafo)</label><input type="text" id="fFoto" maxlength="80" placeholder="Ej: Pere Puig"></div>
+        <div class="fila">
+          <button class="btn rojo" id="btnGuardarNoticia">Guardar noticia</button>
+          <button class="btn claro" id="btnLimpiar">Limpiar</button>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Noticias guardadas</h3>
+        <div class="lista-admin" id="listaAdmin"></div>
+
+        <h3>Archivo .json</h3>
+        <div class="fila">
+          <button class="btn claro" id="btnDescargar">Descargar .json</button>
+          <button class="btn claro" id="btnImportar">Importar .json</button>
+          <input type="file" id="inpImportar" accept=".json,application/json" style="display:none">
+        </div>
+        <div class="fila">
+          <button class="btn claro" id="btnCrearArchivo">Crear archivo .json vinculado</button>
+          <button class="btn claro" id="btnAbrirArchivo">Abrir archivo .json vinculado</button>
+        </div>
+
+        <h3>Servidor WebDAV</h3>
+        <div class="campo"><label for="dUrl">URL del archivo .json (https://servidor/ruta/diari-proba.json)</label><input type="text" id="dUrl" placeholder="https://..."></div>
+        <div class="campo"><label for="dUser">Usuario</label><input type="text" id="dUser" autocomplete="off"></div>
+        <div class="campo"><label for="dPass">Contraseña</label><input type="password" id="dPass" autocomplete="off"></div>
+        <div class="campo"><label for="dDepth">Depth de PROPFIND</label>
+          <select id="dDepth"><option value="0">0 · solo el recurso</option><option value="1">1 · recurso y sus hijos</option><option value="infinity">infinity · todo el árbol</option></select>
+        </div>
+        <div class="fila">
+          <button class="btn" id="btnDavGuardarCfg">Guardar configuración</button>
+          <button class="btn claro" id="btnPropfind">PROPFIND</button>
+          <button class="btn claro" id="btnDavGet">GET</button>
+          <button class="btn claro" id="btnDavPut">PUT</button>
+          <button class="btn claro" id="btnDavDelete">DELETE</button>
+        </div>
+        <div class="estado" id="estado">Sin actividad.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const AZUL = '#0a2a6b';
+const ROJO = '#e4252d';
+
+const SECCIONES = [
+  { id: 'portada', nombre: 'Portada' },
+  { id: 'barca', nombre: 'FC Barcelona' },
+  { id: 'femeni', nombre: 'Barça Femení' },
+  { id: 'futsal', nombre: 'Futsal Barça' },
+  { id: 'masia', nombre: 'La Masia y Canteras' },
+  { id: 'musica', nombre: 'Música 80s·90s' },
+  { id: 'peliculas', nombre: 'Películas' },
+  { id: 'animacion', nombre: 'Animación' },
+  { id: 'series', nombre: 'Series' }
+];
+
+const PLACEHOLDERS = {
+  barca: [
+    { t: 'El Barça prepara una semana clave con el vestuario unido', r: 'El primer equipo trabaja en la ciudad deportiva con la mirada puesta en el próximo compromiso liguero.', a: 'Marta Vilaseca' },
+    { t: 'Las claves tácticas del equipo azulgrana en el último tramo', r: 'Presión alta, transiciones rápidas y mucha posesión: así quiere jugar el conjunto blaugrana.', a: 'Jordi Casanovas' }
+  ],
+  femeni: [
+    { t: 'El Barça Femení mantiene el ritmo y mira hacia Europa', r: 'El conjunto femenino continúa su racha de buenos resultados con una plantilla en plena forma.', a: 'Laia Ferrer' },
+    { t: 'La cantera femenina empuja fuerte en el filial', r: 'Varias jóvenes talentos reclaman minutos en una temporada llena de ilusión.', a: 'Núria Soler' }
+  ],
+  futsal: [
+    { t: 'El Futsal Barça golpea en el Palau y sigue líder', r: 'Gran ambiente en pista y un equipo que domina de principio a fin el encuentro.', a: 'Pau Montserrat' },
+    { t: 'Rotaciones y piernas frescas: el plan del cuerpo técnico', r: 'El míster apuesta por la profundidad de plantilla para afrontar el calendario.', a: 'Carles Bosch' }
+  ],
+  masia: [
+    { t: 'La Masia sigue exportando talento al fútbol mundial', r: 'Jóvenes promesas de la cantera azulgrana destacan en sus respectivas categorías.', a: 'Albert Roure' },
+    { t: 'Las canteras internacionales que más están creciendo', r: 'Un recorrido por las academias que producen los futbolistas del futuro.', a: 'Sílvia Camps' }
+  ],
+  musica: [
+    { t: 'Los discos de los 80 que siguen sonando hoy', r: 'Sintetizadores, melodías pegadizas y una época que no pasa de moda.', a: 'Enric Pujol' },
+    { t: 'Los 90 en una playlist: de la radio al walkman', r: 'Repasamos los himnos de una década que cambió la manera de escuchar música.', a: 'Anna Grau' }
+  ],
+  peliculas: [
+    { t: 'Las películas que no te puedes perder esta semana', r: 'Entre estrenos y clásicos recuperados, la cartelera ofrece planes para todos los gustos.', a: 'Ramon Ibars' },
+    { t: 'Cine de culto: por qué seguimos viéndolas', r: 'Historias que permanecen en la memoria colectiva generación tras generación.', a: 'Clara Dalmau' }
+  ],
+  animacion: [
+    { t: 'La animación vive una nueva edad de oro', r: 'Estudios de todo el mundo apuestan por estilos visuales atrevidos y personales.', a: 'Oriol Pla' },
+    { t: 'Dibujos que marcaron la infancia de varias generaciones', r: 'Un viaje nostálgico por las series y películas que nos hicieron soñar.', a: 'Mireia Cabré' }
+  ],
+  series: [
+    { t: 'Las series de la semana: qué ver y qué dejar pasar', r: 'Resumen de estrenos, regresos y finales que están dando mucho que hablar.', a: 'Joan Riera' },
+    { t: 'Maratón de fin de semana: cinco ficciones adictivas', r: 'Historias que enganchan desde el primer capítulo y no te dejan despegarte del sofá.', a: 'Berta Llopis' }
+  ]
+};
+
+const RELLENO = {
+  barca: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre el FC Barcelona en esta edición.',
+  femeni: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre el Barça Femení en esta edición.',
+  futsal: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre el Futsal Barça en esta edición.',
+  masia: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre La Masia y las canteras internacionales en esta edición.',
+  musica: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre la música de los 80 y 90 en esta edición.',
+  peliculas: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre películas en esta edición.',
+  animacion: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre animación en esta edición.',
+  series: 'Texto de ejemplo. Esta noticia es un contenido inventado que se muestra mientras la redacción no publique información real sobre series en esta edición.'
+};
+
+const CLAVE_DATOS = 'diariProbaDatos';
+const CLAVE_CFG = 'diariProbaCfg';
+
+const ADMIN_USER = 'Nerea';
+const ADMIN_PASS = 'PlatanosVerdesEnElBosqueMaldito@#€';
+let adminOK = false;
+
+let datos = { diario: 'Diari Proba', articulos: [] };
+let cfg = { url: '', user: '', pass: '', depth: '0' };
+let manejador = null;
+let seccionActual = 'portada';
+let edicionActual = lunesDe(new Date());
+let visibles = {};
+
+function pad(n) { return String(n).padStart(2, '0'); }
+function isoLocal(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+function parseISO(s) { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+function lunesDe(fecha) {
+  const d = typeof fecha === 'string' ? parseISO(fecha) : new Date(fecha);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+  return isoLocal(d);
+}
+function fechaLarga(iso) {
+  return parseISO(iso).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function nombreSeccion(id) {
+  const s = SECCIONES.find(x => x.id === id);
+  return s ? s.nombre : id;
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('ver');
+  clearTimeout(toast.h);
+  toast.h = setTimeout(() => t.classList.remove('ver'), 2800);
+}
+function estado(msg) {
+  document.getElementById('estado').textContent = msg;
+}
+
+function logoSVG() {
+  let rayos = '';
+  const cx = 118, cy = 112;
+  for (let i = 0; i < 20; i++) {
+    const ang = (92 + i * 8.6) * Math.PI / 180;
+    const r1 = 40 + (i % 2) * 6;
+    const r2 = r1 + 34 + (i % 3) * 16;
+    const x1 = cx + Math.cos(ang) * r1, y1 = cy - Math.sin(ang) * r1;
+    const x2 = cx + Math.cos(ang) * r2, y2 = cy - Math.sin(ang) * r2;
+    rayos += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="' + ROJO + '" stroke-width="1.3" stroke-linecap="round"/>';
+  }
+  return '<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diari Proba, deporte y más">' +
+    rayos +
+    '<text x="150" y="128" font-family="Georgia, \'Times New Roman\', serif" font-size="76" font-weight="700" letter-spacing="1" fill="' + AZUL + '">Diari Proba</text>' +
+    '<text x="182" y="170" font-family="Georgia, \'Times New Roman\', serif" font-size="25" letter-spacing="3" fill="' + AZUL + '">DEPORTE Y MÁS</text>' +
+    '</svg>';
+}
+
+function guardarLocal() {
+  try { localStorage.setItem(CLAVE_DATOS, JSON.stringify(datos)); } catch (e) { toast('No se pudo guardar en el navegador (¿imágenes muy grandes?)'); }
+}
+function cargarLocal() {
+  try {
+    const raw = localStorage.getItem(CLAVE_DATOS);
+    if (raw) return normalizar(JSON.parse(raw));
+  } catch (e) {}
+  return null;
+}
+function normalizar(obj) {
+  const lista = obj && Array.isArray(obj.articulos) ? obj.articulos : [];
+  return {
+    diario: 'Diari Proba',
+    articulos: lista.map(a => ({
+      id: a.id || 'a' + Date.now() + Math.random().toString(36).slice(2, 7),
+      seccion: a.seccion || 'barca',
+      titulo: a.titulo || '',
+      resumen: a.resumen || '',
+      texto: a.texto || '',
+      autor: a.autor || 'Redacción',
+      fecha: a.fecha || isoLocal(new Date()),
+      edicion: a.edicion || lunesDe(a.fecha || new Date()),
+      imagen: a.imagen || '',
+      fotografo: a.fotografo || '',
+      archivada: !!a.archivada
+    }))
+  };
+}
+function cargarCfg() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CFG);
+    if (raw) cfg = Object.assign(cfg, JSON.parse(raw));
+  } catch (e) {}
+}
+function guardarCfg() {
+  try { localStorage.setItem(CLAVE_CFG, JSON.stringify(cfg)); } catch (e) {}
+}
+
+function cabecerasDav(extra) {
+  const h = Object.assign({}, extra || {});
+  if (cfg.user) h['Authorization'] = 'Basic ' + btoa(unescape(encodeURIComponent(cfg.user + ':' + cfg.pass)));
+  return h;
+}
+async function davPropfind(depth) {
+  const cuerpo = '<?xml version="1.0" encoding="utf-8"?><d:propfind xmlns:d="DAV:"><d:prop><d:displayname/><d:getlastmodified/><d:getcontentlength/><d:getcontenttype/><d:resourcetype/></d:prop></d:propfind>';
+  const r = await fetch(cfg.url, {
+    method: 'PROPFIND',
+    headers: cabecerasDav({ 'Depth': String(depth), 'Content-Type': 'application/xml; charset=utf-8' }),
+    body: cuerpo
+  });
+  if (r.status !== 207 && !r.ok) throw new Error('PROPFIND respondió ' + r.status);
+  const xml = new DOMParser().parseFromString(await r.text(), 'application/xml');
+  const respuestas = Array.from(xml.getElementsByTagNameNS('DAV:', 'response'));
+  return respuestas.map(n => {
+    const get = tag => { const e = n.getElementsByTagNameNS('DAV:', tag)[0]; return e ? e.textContent : ''; };
+    return {
+      href: get('href'),
+      nombre: get('displayname'),
+      modificado: get('getlastmodified'),
+      tamano: get('getcontentlength'),
+      tipo: get('getcontenttype'),
+      coleccion: n.getElementsByTagNameNS('DAV:', 'collection').length > 0
+    };
+  });
+}
+async function davGet() {
+  const r = await fetch(cfg.url, { method: 'GET', headers: cabecerasDav({ 'Accept': 'application/json' }), cache: 'no-store' });
+  if (!r.ok) throw new Error('GET respondió ' + r.status);
+  return r.json();
+}
+async function davPut(contenido) {
+  const r = await fetch(cfg.url, {
+    method: 'PUT',
+    headers: cabecerasDav({ 'Content-Type': 'application/json; charset=utf-8' }),
+    body: contenido
+  });
+  if (!r.ok) throw new Error('PUT respondió ' + r.status);
+  return r.status;
+}
+async function davDelete() {
+  const r = await fetch(cfg.url, { method: 'DELETE', headers: cabecerasDav() });
+  if (!r.ok) throw new Error('DELETE respondió ' + r.status);
+  return r.status;
+}
+
+async function escribirManejador() {
+  if (!manejador) return;
+  const w = await manejador.createWritable();
+  await w.write(JSON.stringify(datos, null, 2));
+  await w.close();
+}
+
+async function persistir() {
+  guardarLocal();
+  const fallos = [];
+  if (manejador) {
+    try { await escribirManejador(); } catch (e) { fallos.push('archivo local: ' + e.message); }
+  }
+  if (cfg.url) {
+    try { await davPut(JSON.stringify(datos, null, 2)); } catch (e) { fallos.push('WebDAV: ' + e.message); }
+  }
+  if (fallos.length) toast('Guardado con avisos · ' + fallos.join(' | '));
+  else toast('Guardado correctamente');
+}
+
+async function cargarInicial() {
+  cargarCfg();
+  let cargado = null;
+  if (cfg.url) {
+    try { cargado = normalizar(await davGet()); } catch (e) { cargado = null; }
+  }
+  if (!cargado) cargado = cargarLocal();
+  if (cargado) datos = cargado;
+}
+
+function articulosReales(seccion, edicion) {
+  return datos.articulos
+    .filter(a => a.edicion === edicion && (seccion === 'portada' || a.seccion === seccion) && (adminOK || !a.archivada))
+    .sort((a, b) => (b.fecha > a.fecha ? 1 : b.fecha < a.fecha ? -1 : 0));
+}
+function placeholdersDe(seccion) {
+  return (PLACEHOLDERS[seccion] || []).map((p, i) => ({
+    id: 'demo-' + seccion + '-' + i,
+    seccion: seccion,
+    titulo: p.t,
+    resumen: p.r,
+    texto: p.r + '\n\n' + RELLENO[seccion],
+    autor: p.a,
+    fecha: edicionActual,
+    edicion: edicionActual,
+    imagen: '',
+    demo: true
+  }));
+}
+function itemsSeccion(seccion) {
+  const reales = articulosReales(seccion, edicionActual);
+  return reales.length ? reales : placeholdersDe(seccion);
+}
+function registrar(a) { visibles[a.id] = a; return a; }
+
+function portadaVacia() {
+  return '<div class="cover-vacia">' + logoSVG() + '</div>';
+}
+function imagenHTML(a) {
+  if (!a.imagen) return portadaVacia();
+  return '<img class="cover" src="' + esc(a.imagen) + '" alt="">' +
+    (a.fotografo ? '<div class="pie-foto">Foto: ' + esc(a.fotografo) + '</div>' : '');
+}
+function etiquetas(a) {
+  return (a.demo ? '<span class="etiqueta-demo">Ejemplo</span>' : '') +
+    (a.archivada ? '<span class="etiqueta-arch">Archivada</span>' : '');
+}
+function pieAutor(a) {
+  return '<div class="autor">Por <b>' + esc(a.autor) + '</b> · ' + esc(fechaLarga(a.fecha)) + '</div>';
+}
+function tarjetaHTML(a) {
+  registrar(a);
+  return '<article class="tarjeta' + (a.archivada ? ' archivada' : '') + '" data-id="' + esc(a.id) + '">' +
+    imagenHTML(a) +
+    '<div class="cuerpo">' +
+    '<span class="kicker">' + esc(nombreSeccion(a.seccion)) + etiquetas(a) + '</span>' +
+    '<h3>' + esc(a.titulo) + '</h3>' +
+    '<p>' + esc(a.resumen) + '</p>' +
+    pieAutor(a) +
+    '</div></article>';
+}
+
+function renderNav() {
+  document.getElementById('nav').innerHTML = SECCIONES.map(s =>
+    '<li><button data-sec="' + s.id + '" class="' + (s.id === seccionActual ? 'activo' : '') + '">' + esc(s.nombre) + '</button></li>'
+  ).join('');
+}
+
+function renderEdiciones() {
+  const set = new Set(datos.articulos.filter(a => adminOK || !a.archivada).map(a => a.edicion));
+  set.add(lunesDe(new Date()));
+  set.add(edicionActual);
+  const lista = Array.from(set).sort().reverse();
+  const sel = document.getElementById('selEdicion');
+  sel.innerHTML = lista.map(e => '<option value="' + e + '"' + (e === edicionActual ? ' selected' : '') + '>Lunes ' + esc(parseISO(e).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })) + '</option>').join('');
+  document.getElementById('textoEdicion').textContent = fechaLarga(edicionActual);
+}
+
+function renderMain() {
+  visibles = {};
+  const main = document.getElementById('main');
+  const avisoAdmin = adminOK ? '<div class="aviso-admin">Sesión de administrador activa: ves también las noticias archivadas (los lectores no las ven).</div>' : '';
+  if (seccionActual === 'portada') {
+    const todasReales = articulosReales('portada', edicionActual);
+    const destacada = todasReales.length ? todasReales[0] : placeholdersDe('barca')[0];
+    const laterales = [];
+    SECCIONES.filter(s => s.id !== 'portada').forEach(s => {
+      const it = itemsSeccion(s.id);
+      const cand = it.find(x => x.id !== destacada.id);
+      if (cand && laterales.length < 4) laterales.push(cand);
+    });
+    registrar(destacada);
+    let html = avisoAdmin + '<section class="portada">' +
+      '<div class="destacada' + (destacada.archivada ? ' archivada' : '') + '" data-id="' + esc(destacada.id) + '">' +
+      imagenHTML(destacada) +
+      '<span class="kicker">' + esc(nombreSeccion(destacada.seccion)) + etiquetas(destacada) + '</span>' +
+      '<h2>' + esc(destacada.titulo) + '</h2>' +
+      '<p class="resumen">' + esc(destacada.resumen) + '</p>' +
+      pieAutor(destacada) +
+      '</div>' +
+      '<aside class="lateral"><h4>Lo más leído de la edición</h4>' +
+      laterales.map(a => {
+        registrar(a);
+        return '<div class="item" data-id="' + esc(a.id) + '"><span class="kicker">' + esc(nombreSeccion(a.seccion)) + '</span><h5>' + esc(a.titulo) + '</h5>' +
+          '<div class="autor" style="border:none;margin-top:4px;padding-top:0">Por <b>' + esc(a.autor) + '</b></div></div>';
+      }).join('') +
+      '</aside></section>';
+    SECCIONES.filter(s => s.id !== 'portada').forEach(s => {
+      const it = itemsSeccion(s.id).slice(0, 3);
+      html += '<section class="bloque"><div class="bloque-cab"><h3><span></span>' + esc(s.nombre) + '</h3><button data-sec="' + s.id + '">Ver sección &rsaquo;</button></div>' +
+        '<div class="rejilla">' + it.map(tarjetaHTML).join('') + '</div></section>';
+    });
+    main.innerHTML = html;
+  } else {
+    const it = itemsSeccion(seccionActual);
+    main.innerHTML = avisoAdmin + '<h2 class="titulo-pagina">' + esc(nombreSeccion(seccionActual)) + '</h2>' +
+      '<div class="rejilla">' + it.map(tarjetaHTML).join('') + '</div>';
+  }
+}
+
+function renderTodo() {
+  renderNav();
+  renderEdiciones();
+  renderMain();
+}
+
+function abrirLector(id) {
+  const a = visibles[id];
+  if (!a) return;
+  const parrafos = String(a.texto || a.resumen).split(/\n+/).filter(Boolean).map(p => '<p>' + esc(p) + '</p>').join('');
+  document.getElementById('lectorContenido').innerHTML =
+    '<span class="kicker">' + esc(nombreSeccion(a.seccion)) + etiquetas(a) + '</span>' +
+    '<h1>' + esc(a.titulo) + '</h1>' +
+    '<p class="entradilla">' + esc(a.resumen) + '</p>' +
+    imagenHTML(a) + parrafos + pieAutor(a);
+  document.getElementById('modalLector').classList.add('abierto');
+}
+
+function cerrarModal(id) { document.getElementById(id).classList.remove('abierto'); }
+
+function llenarSelectSecciones() {
+  document.getElementById('fSeccion').innerHTML = SECCIONES.filter(s => s.id !== 'portada')
+    .map(s => '<option value="' + s.id + '">' + esc(s.nombre) + '</option>').join('');
+}
+
+function limpiarFormulario() {
+  document.getElementById('fId').value = '';
+  document.getElementById('fTitulo').value = '';
+  document.getElementById('fResumen').value = '';
+  document.getElementById('fTexto').value = '';
+  document.getElementById('fAutor').value = '';
+  document.getElementById('fFecha').value = isoLocal(new Date());
+  document.getElementById('fImagen').value = '';
+  document.getElementById('fFoto').value = '';
+  const vp = document.getElementById('vistaPrevia');
+  vp.style.display = 'none';
+  vp.removeAttribute('src');
+  delete vp.dataset.actual;
+}
+
+function renderListaAdmin() {
+  const cont = document.getElementById('listaAdmin');
+  const orden = datos.articulos.slice().sort((a, b) => (b.fecha > a.fecha ? 1 : -1));
+  if (!orden.length) {
+    cont.innerHTML = '<div class="vacio">Aún no hay noticias guardadas. Mientras tanto se muestran textos de ejemplo.</div>';
+    return;
+  }
+  cont.innerHTML = orden.map(a =>
+    '<div class="reg"><div><b>' + esc(a.titulo) + '</b>' + (a.archivada ? '<span class="etiqueta-arch">Archivada</span>' : '') +
+    '<small>' + esc(nombreSeccion(a.seccion)) + ' · ' + esc(a.fecha) + ' · ' + esc(a.autor) + '</small></div>' +
+    '<div class="fila" style="margin:0"><button class="btn mini claro" data-editar="' + esc(a.id) + '">Editar</button>' +
+    '<button class="btn mini claro" data-archivar="' + esc(a.id) + '">' + (a.archivada ? 'Desarchivar' : 'Archivar') + '</button>' +
+    '<button class="btn mini rojo" data-borrar="' + esc(a.id) + '">Borrar</button></div></div>'
+  ).join('');
+}
+
+function mostrarPanel() {
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('panelEditor').style.display = 'block';
+  document.getElementById('dUrl').value = cfg.url;
+  document.getElementById('dUser').value = cfg.user;
+  document.getElementById('dPass').value = cfg.pass;
+  document.getElementById('dDepth').value = cfg.depth || '0';
+  if (!document.getElementById('fFecha').value) document.getElementById('fFecha').value = isoLocal(new Date());
+  renderListaAdmin();
+}
+
+function abrirAdmin() {
+  document.getElementById('modalAdmin').classList.add('abierto');
+  if (adminOK) { mostrarPanel(); return; }
+  document.getElementById('loginBox').style.display = 'block';
+  document.getElementById('panelEditor').style.display = 'none';
+  document.getElementById('lUser').value = '';
+  document.getElementById('lPass').value = '';
+  document.getElementById('loginError').textContent = '';
+}
+
+function iniciarSesion() {
+  const u = document.getElementById('lUser').value.trim();
+  const p = document.getElementById('lPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    adminOK = true;
+    mostrarPanel();
+    renderTodo();
+    toast('Sesión iniciada');
+  } else {
+    document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos.';
+  }
+}
+
+function cerrarSesion() {
+  adminOK = false;
+  cerrarModal('modalAdmin');
+  cerrarModal('modalLector');
+  document.getElementById('loginBox').style.display = 'block';
+  document.getElementById('panelEditor').style.display = 'none';
+  renderTodo();
+  toast('Sesión cerrada');
+}
+
+function leerImagen(file) {
+  return new Promise((resolve, reject) => {
+    const lector = new FileReader();
+    lector.onerror = () => reject(new Error('No se pudo leer la imagen'));
+    lector.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Imagen no válida'));
+      img.onload = () => {
+        const max = 1100;
+        const esc2 = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * esc2);
+        c.height = Math.round(img.height * esc2);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = lector.result;
+    };
+    lector.readAsDataURL(file);
+  });
+}
+
+async function guardarNoticia() {
+  if (!adminOK) { toast('Solo el administrador puede guardar noticias'); return; }
+  const titulo = document.getElementById('fTitulo').value.trim();
+  const texto = document.getElementById('fTexto').value.trim();
+  if (!titulo || !texto) { toast('El titular y el texto son obligatorios'); return; }
+  const fecha = document.getElementById('fFecha').value || isoLocal(new Date());
+  const vp = document.getElementById('vistaPrevia');
+  const id = document.getElementById('fId').value || 'a' + Date.now() + Math.random().toString(36).slice(2, 7);
+  const resumenCampo = document.getElementById('fResumen').value.trim();
+  const previa = datos.articulos.find(a => a.id === id);
+  const noticia = {
+    id: id,
+    seccion: document.getElementById('fSeccion').value,
+    titulo: titulo,
+    resumen: resumenCampo || (texto.length > 160 ? texto.slice(0, 157) + '...' : texto),
+    texto: texto,
+    autor: document.getElementById('fAutor').value.trim() || 'Redacción',
+    fecha: fecha,
+    edicion: lunesDe(fecha),
+    imagen: vp.dataset.actual || '',
+    fotografo: document.getElementById('fFoto').value.trim(),
+    archivada: previa ? !!previa.archivada : false
+  };
+  const idx = datos.articulos.findIndex(a => a.id === id);
+  if (idx >= 0) datos.articulos[idx] = noticia; else datos.articulos.push(noticia);
+  edicionActual = noticia.edicion;
+  await persistir();
+  limpiarFormulario();
+  renderListaAdmin();
+  renderTodo();
+}
+
+function editarNoticia(id) {
+  const a = datos.articulos.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('fId').value = a.id;
+  document.getElementById('fSeccion').value = a.seccion;
+  document.getElementById('fTitulo').value = a.titulo;
+  document.getElementById('fResumen').value = a.resumen;
+  document.getElementById('fTexto').value = a.texto;
+  document.getElementById('fAutor').value = a.autor;
+  document.getElementById('fFecha').value = a.fecha;
+  document.getElementById('fImagen').value = '';
+  document.getElementById('fFoto').value = a.fotografo || '';
+  const vp = document.getElementById('vistaPrevia');
+  if (a.imagen) {
+    vp.src = a.imagen;
+    vp.dataset.actual = a.imagen;
+    vp.style.display = 'block';
+  } else {
+    vp.style.display = 'none';
+    vp.removeAttribute('src');
+    delete vp.dataset.actual;
+  }
+}
+
+async function archivarNoticia(id) {
+  if (!adminOK) { toast('Solo el administrador puede archivar noticias'); return; }
+  const a = datos.articulos.find(x => x.id === id);
+  if (!a) return;
+  a.archivada = !a.archivada;
+  await persistir();
+  renderListaAdmin();
+  renderTodo();
+  toast(a.archivada ? 'Noticia archivada: los lectores ya no la ven' : 'Noticia desarchivada: vuelve a ser pública');
+}
+
+async function borrarNoticia(id) {
+  if (!adminOK) { toast('Solo el administrador puede borrar noticias'); return; }
+  if (!confirm('¿Borrar esta noticia definitivamente? Si solo quieres ocultarla, usa Archivar.')) return;
+  datos.articulos = datos.articulos.filter(a => a.id !== id);
+  await persistir();
+  renderListaAdmin();
+  renderTodo();
+}
+
+function leerCfgFormulario() {
+  cfg.url = document.getElementById('dUrl').value.trim();
+  cfg.user = document.getElementById('dUser').value.trim();
+  cfg.pass = document.getElementById('dPass').value;
+  cfg.depth = document.getElementById('dDepth').value;
+}
+
+function requerirUrl() {
+  leerCfgFormulario();
+  if (!cfg.url) { estado('Indica primero la URL del archivo .json en WebDAV.'); return false; }
+  return true;
+}
+
+function descargarJSON() {
+  const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'diari-proba.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  toast('Archivo diari-proba.json descargado');
+}
+
+document.addEventListener('click', async e => {
+  const t = e.target;
+  const cerrar = t.closest('[data-cerrar]');
+  if (cerrar) { cerrarModal(cerrar.dataset.cerrar); return; }
+  if (t.classList && t.classList.contains('modal')) { t.classList.remove('abierto'); return; }
+  const sec = t.closest('[data-sec]');
+  if (sec) {
+    seccionActual = sec.dataset.sec;
+    renderNav();
+    renderMain();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const ed = t.closest('[data-editar]');
+  if (ed) { editarNoticia(ed.dataset.editar); return; }
+  const ar = t.closest('[data-archivar]');
+  if (ar) { archivarNoticia(ar.dataset.archivar); return; }
+  const bo = t.closest('[data-borrar]');
+  if (bo) { borrarNoticia(bo.dataset.borrar); return; }
+  const card = t.closest('[data-id]');
+  if (card && document.getElementById('main').contains(card)) { abrirLector(card.dataset.id); return; }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    cerrarModal('modalLector');
+    cerrarModal('modalAdmin');
+  }
+});
+
+document.getElementById('btnAdmin').addEventListener('click', abrirAdmin);
+document.getElementById('btnLogin').addEventListener('click', iniciarSesion);
+document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
+document.getElementById('lPass').addEventListener('keydown', e => { if (e.key === 'Enter') iniciarSesion(); });
+document.getElementById('lUser').addEventListener('keydown', e => { if (e.key === 'Enter') iniciarSesion(); });
+document.getElementById('btnGuardarNoticia').addEventListener('click', guardarNoticia);
+document.getElementById('btnLimpiar').addEventListener('click', limpiarFormulario);
+document.getElementById('selEdicion').addEventListener('change', e => {
+  edicionActual = e.target.value;
+  document.getElementById('textoEdicion').textContent = fechaLarga(edicionActual);
+  renderMain();
+});
+
+document.getElementById('fImagen').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  const vp = document.getElementById('vistaPrevia');
+  if (!f) return;
+  try {
+    const dataUrl = await leerImagen(f);
+    vp.src = dataUrl;
+    vp.dataset.actual = dataUrl;
+    vp.style.display = 'block';
+  } catch (err) {
+    toast(err.message);
+  }
+});
+
+document.getElementById('btnDescargar').addEventListener('click', descargarJSON);
+document.getElementById('btnImportar').addEventListener('click', () => document.getElementById('inpImportar').click());
+document.getElementById('inpImportar').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    datos = normalizar(JSON.parse(await f.text()));
+    await persistir();
+    renderListaAdmin();
+    renderTodo();
+  } catch (err) {
+    toast('El archivo .json no es válido');
+  }
+  e.target.value = '';
+});
+
+document.getElementById('btnCrearArchivo').addEventListener('click', async () => {
+  if (!window.showSaveFilePicker) { toast('Tu navegador no permite vincular archivos. Usa Descargar .json o WebDAV.'); return; }
+  try {
+    manejador = await window.showSaveFilePicker({ suggestedName: 'diari-proba.json', types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }] });
+    await escribirManejador();
+    toast('Archivo vinculado: los cambios se guardarán en él');
+  } catch (err) {
+    manejador = null;
+  }
+});
+
+document.getElementById('btnAbrirArchivo').addEventListener('click', async () => {
+  if (!window.showOpenFilePicker) { toast('Tu navegador no permite vincular archivos. Usa Importar .json o WebDAV.'); return; }
+  try {
+    const [h] = await window.showOpenFilePicker({ types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }] });
+    const f = await h.getFile();
+    datos = normalizar(JSON.parse(await f.text()));
+    manejador = h;
+    guardarLocal();
+    renderListaAdmin();
+    renderTodo();
+    toast('Archivo vinculado y cargado');
+  } catch (err) {
+    toast('No se pudo abrir el archivo');
+  }
+});
+
+document.getElementById('btnDavGuardarCfg').addEventListener('click', () => {
+  leerCfgFormulario();
+  guardarCfg();
+  estado('Configuración WebDAV guardada.');
+  toast('Configuración guardada');
+});
+
+document.getElementById('btnPropfind').addEventListener('click', async () => {
+  if (!requerirUrl()) return;
+  estado('Enviando PROPFIND con Depth: ' + cfg.depth + ' ...');
+  try {
+    const res = await davPropfind(cfg.depth);
+    estado('PROPFIND correcto (207 Multi-Status) · Depth: ' + cfg.depth + '\n' + res.map(r =>
+      (r.coleccion ? '[carpeta] ' : '[archivo] ') + r.href + (r.tamano ? ' · ' + r.tamano + ' bytes' : '') + (r.modificado ? ' · ' + r.modificado : '')
+    ).join('\n'));
+  } catch (err) {
+    estado('Error: ' + err.message);
+  }
+});
+
+document.getElementById('btnDavGet').addEventListener('click', async () => {
+  if (!requerirUrl()) return;
+  try {
+    datos = normalizar(await davGet());
+    guardarLocal();
+    renderListaAdmin();
+    renderTodo();
+    estado('GET correcto. Noticias cargadas: ' + datos.articulos.length);
+  } catch (err) {
+    estado('Error: ' + err.message);
+  }
+});
+
+document.getElementById('btnDavPut').addEventListener('click', async () => {
+  if (!requerirUrl()) return;
+  guardarCfg();
+  try {
+    const st = await davPut(JSON.stringify(datos, null, 2));
+    estado('PUT correcto (' + st + '). Archivo .json guardado en el servidor.');
+  } catch (err) {
+    estado('Error: ' + err.message);
+  }
+});
+
+document.getElementById('btnDavDelete').addEventListener('click', async () => {
+  if (!requerirUrl()) return;
+  if (!confirm('¿Eliminar el archivo .json del servidor WebDAV?')) return;
+  try {
+    const st = await davDelete();
+    estado('DELETE correcto (' + st + '). El archivo se eliminó del servidor.');
+  } catch (err) {
+    estado('Error: ' + err.message);
+  }
+});
+
+(async function iniciar() {
+  document.getElementById('logo').innerHTML = '<div class="logo">' + logoSVG() + '</div>';
+  document.querySelector('#logo .logo').style.cssText = 'max-width:560px;margin:0 auto';
+  document.getElementById('fechaHoy').textContent = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  llenarSelectSecciones();
+  limpiarFormulario();
+  await cargarInicial();
+  renderTodo();
+})();
+</script>
+</body>
+</html>
